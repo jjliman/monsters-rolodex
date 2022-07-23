@@ -1,6 +1,7 @@
 import { Component } from 'react';
 
-import logo from './logo.svg';
+import SearchBox from './components/search-box/search-box.component';
+import CardList from './components/card-list/card-list.component';
 import './App.css';
 
 class App extends Component {
@@ -10,20 +11,17 @@ class App extends Component {
       monsters: [],
       searchField: ''
     };
-    console.log('constructor');
+    // console.log('constructor');
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
+    // console.log('componentDidMount');
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(response => response.json())
       .then(users => this.setState(
         () => {
           // console.log('setting state...');
           return { monsters: users };
-        },
-        () => {
-          console.log('setState callback');
         }
       ));
       
@@ -44,30 +42,29 @@ class App extends Component {
   }
   */
   onSearchChange = (event) => {
+    console.log(this);
     const searchField = event.target.value.toLocaleLowerCase();
     this.setState(
       () => {
         return { searchField };
       },
       () => {
-        console.log(this.state);
+        // console.log(this.state);
       }
     );
     // console.log(this);
   }
 
   render() {
-    console.log('render');
+    // console.log('render App');
     const { monsters, searchField } = this.state;
     const { onSearchChange } = this;
 
     const filteredMonsters = monsters.filter(monster => monster.name.toLocaleLowerCase().includes(searchField));
     return (
       <div className="App">
-        <input className='search-box' type='search' placeholder='search monsters' onChange={onSearchChange} />
-        {filteredMonsters.map((monster) => {
-          return(<div key={monster.id}><h1>{monster.name}</h1></div>);
-        })}
+        <SearchBox onChangeHandler={onSearchChange} placeholder='search monsters' className='monsters-search-box' />
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
