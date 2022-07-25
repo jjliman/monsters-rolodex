@@ -7,23 +7,25 @@ import './App.css';
 
 
 const App = () => {
-  console.log('render');
+  // console.log('render');
   
   const [searchField, setSearchField] = useState('');
   const [monsters, setMonsters] = useState([]);
   const [filteredMonsters, setFilteredMonsters] = useState(monsters);
   // console.log(searchField);
   useEffect(() => {
-    console.log('in useEffect fetch callback');
+    // console.log('in useEffect fetch callback');
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(response => response.json())
       .then(users => setMonsters(users));
   }, []);
 
   useEffect(() => {
-    console.log('in useEffect filter callback: ', monsters);
+    // console.log('in useEffect filter callback: ', monsters);
     const newFilteredMonsters = monsters.filter(monster => monster.name.toLocaleLowerCase().includes(searchField));
     setFilteredMonsters(newFilteredMonsters);
+
+    // return (() => {console.log('cleanup')});
   }, [searchField, monsters]);
 
   const onSearchChange = (event) => {
